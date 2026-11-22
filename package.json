@@ -1,0 +1,21 @@
+{
+  "name": "lab-management-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Laboratory Management System - Single-tenant multi-instance for diagnostic labs",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run --workspaces build",
+    "dev": "npm run dev --workspace=@lab/api",
+    "dev:web": "npm run dev --workspace=@lab/web",
+    "db:setup": "npm run db:seed --workspace=@lab/db",
+    "db:migrate": "npm run db:migrate --workspace=@lab/db",
+    "db:seed": "npm run db:seed --workspace=@lab/db"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
