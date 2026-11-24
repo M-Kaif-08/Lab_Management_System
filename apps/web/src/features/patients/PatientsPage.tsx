@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Plus, UserPlus, Phone, Calendar, User, FileText, X } from 'lucide-react';
+import { Search, UserPlus, X } from 'lucide-react';
 import { apiRequest } from '../../lib/api.js';
 import { Patient, CreatePatient } from '@lab/contracts';
 

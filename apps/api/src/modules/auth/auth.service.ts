@@ -1,7 +1,7 @@
 import { db, staffMembers, staffRoles, roles, rolePermissions, permissions } from '@lab/db';
 import { eq } from 'drizzle-orm';
 import argon2 from 'argon2';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { env } from '../../config/env.js';
 import { LoginRequest, RoleName, Permission } from '@lab/contracts';
 
@@ -48,7 +48,7 @@ export class AuthService {
     };
 
     const token = jwt.sign(userPayload, env.JWT_SECRET, {
-      expiresIn: env.JWT_EXPIRES_IN
+      expiresIn: '8h'
     });
 
     return { user: userPayload, token };

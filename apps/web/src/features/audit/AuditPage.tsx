@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ShieldCheck, History } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ShieldCheck } from 'lucide-react';
 import { apiRequest } from '../../lib/api.js';
 
 interface AuditLogItem {
