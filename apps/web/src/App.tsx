@@ -1,8 +1,20 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
-import { Activity, Users, Settings, ShieldCheck, LogOut } from 'lucide-react';
+import { BrowserRouter, Routes, Route, Link, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import {
+  Activity,
+  Users,
+  Settings,
+  ShieldCheck,
+  LogOut,
+  FlaskConical,
+  ShoppingCart,
+  QrCode
+} from 'lucide-react';
 import { LoginPage } from './features/auth/LoginPage.js';
 import { PatientsPage } from './features/patients/PatientsPage.js';
+import { CatalogPage } from './features/catalog/CatalogPage.js';
+import { OrdersPage } from './features/orders/OrdersPage.js';
+import { SamplesPage } from './features/samples/SamplesPage.js';
 import { SettingsPage } from './features/settings/SettingsPage.js';
 import { AuditPage } from './features/audit/AuditPage.js';
 import { useAuthStore } from './stores/authStore.js';
@@ -10,6 +22,7 @@ import { useAuthStore } from './stores/authStore.js';
 function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const { user, token, logout } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
 
   if (!token) {
     return <Navigate to="/login" replace />;
@@ -19,6 +32,15 @@ function ProtectedLayout({ children }: { children: React.ReactNode }) {
     logout();
     navigate('/login');
   };
+
+  const navItems = [
+    { label: 'Patients', path: '/patients', icon: Users },
+    { label: 'Orders', path: '/orders', icon: ShoppingCart },
+    { label: 'Sample Tracking', path: '/samples', icon: QrCode },
+    { label: 'Test Catalog', path: '/catalog', icon: FlaskConical },
+    { label: 'Lab Settings', path: '/settings', icon: Settings },
+    { label: 'Audit Trail', path: '/audit', icon: ShieldCheck }
+  ];
 
   return (
     <div className="flex h-screen bg-slate-50">
@@ -35,27 +57,24 @@ function ProtectedLayout({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="p-4 space-y-1.5 flex-1">
-          <Link
-            to="/patients"
-            className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-700 rounded-lg hover:bg-teal-50 hover:text-teal-700 transition"
-          >
-            <Users className="w-4 h-4 text-slate-400 group-hover:text-teal-600" />
-            <span>Patients</span>
-          </Link>
-          <Link
-            to="/settings"
-            className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-700 rounded-lg hover:bg-teal-50 hover:text-teal-700 transition"
-          >
-            <Settings className="w-4 h-4 text-slate-400" />
-            <span>Lab Settings</span>
-          </Link>
-          <Link
-            to="/audit"
-            className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-700 rounded-lg hover:bg-teal-50 hover:text-teal-700 transition"
-          >
-            <ShieldCheck className="w-4 h-4 text-slate-400" />
-            <span>Audit Trail</span>
-          </Link>
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname.startsWith(item.path);
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition ${
+                  isActive
+                    ? 'bg-teal-50 text-teal-700 font-semibold shadow-xs'
+                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                }`}
+              >
+                <Icon className={`w-4 h-4 ${isActive ? 'text-teal-600' : 'text-slate-400'}`} />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
         {/* User Badge & Logout */}
@@ -96,6 +115,30 @@ export function App() {
           element={
             <ProtectedLayout>
               <PatientsPage />
+            </ProtectedLayout>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedLayout>
+              <OrdersPage />
+            </ProtectedLayout>
+          }
+        />
+        <Route
+          path="/samples"
+          element={
+            <ProtectedLayout>
+              <SamplesPage />
+            </ProtectedLayout>
+          }
+        />
+        <Route
+          path="/catalog"
+          element={
+            <ProtectedLayout>
+              <CatalogPage />
             </ProtectedLayout>
           }
         />

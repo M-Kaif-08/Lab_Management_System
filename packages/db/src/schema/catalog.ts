@@ -1,5 +1,14 @@
 import { pgTable, uuid, varchar, text, numeric, integer, boolean, timestamp } from 'drizzle-orm/pg-core';
 
+export const specimenTypes = pgTable('specimen_types', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  code: varchar('code', { length: 20 }).notNull().unique(),
+  name: varchar('name', { length: 100 }).notNull(),
+  isActive: boolean('is_active').notNull().default(true),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+
 export const tests = pgTable('tests', {
   id: uuid('id').primaryKey().defaultRandom(),
   code: varchar('code', { length: 20 }).notNull().unique(),
@@ -34,4 +43,23 @@ export const referenceRanges = pgTable('reference_ranges', {
   criticalLow: numeric('critical_low', { precision: 10, scale: 2 }),
   criticalHigh: numeric('critical_high', { precision: 10, scale: 2 }),
   normalText: text('normal_text')
+});
+
+export const panels = pgTable('panels', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  code: varchar('code', { length: 20 }).notNull().unique(),
+  name: varchar('name', { length: 150 }).notNull(),
+  description: text('description'),
+  price: numeric('price', { precision: 10, scale: 2 }),
+  isActive: boolean('is_active').notNull().default(true),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+
+export const panelItems = pgTable('panel_items', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  panelId: uuid('panel_id').notNull().references(() => panels.id, { onDelete: 'cascade' }),
+  testId: uuid('test_id').notNull().references(() => tests.id, { onDelete: 'cascade' }),
+  sortOrder: integer('sort_order').notNull().default(0),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
 });

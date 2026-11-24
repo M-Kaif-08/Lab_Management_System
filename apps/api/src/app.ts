@@ -8,6 +8,9 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { authRouter } from './modules/auth/auth.routes.js';
 import { labRouter } from './modules/lab/lab.routes.js';
 import { patientsRouter } from './modules/patients/patients.routes.js';
+import { catalogRouter } from './modules/catalog/catalog.routes.js';
+import { ordersRouter } from './modules/orders/orders.routes.js';
+import { samplesRouter } from './modules/samples/samples.routes.js';
 import { auditRouter } from './modules/audit/audit.routes.js';
 
 export const app = express();
@@ -33,6 +36,9 @@ app.get('/health', (req, res) => {
 app.use(`${API_PREFIX}/auth`, authRouter);
 app.use(`${API_PREFIX}/lab`, labRouter);
 app.use(`${API_PREFIX}/patients`, patientsRouter);
+app.use(`${API_PREFIX}/catalog`, catalogRouter);
+app.use(`${API_PREFIX}/orders`, ordersRouter);
+app.use(`${API_PREFIX}/samples`, samplesRouter);
 app.use(`${API_PREFIX}/audit`, auditRouter);
 
 // Central Error Handler

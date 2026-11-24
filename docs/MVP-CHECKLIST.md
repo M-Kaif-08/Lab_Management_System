@@ -22,8 +22,8 @@ Stages v0.2 through v0.4 together deliver the first complete patient-to-report-a
 
 ## Progress
 
-- [ ] v0.1 Foundation
-- [ ] v0.2 Registration and ordering
+- [x] v0.1 Foundation
+- [x] v0.2 Registration and ordering
 - [ ] v0.3 Results and reports
 - [ ] v0.4 Billing
 - [ ] v0.5 Administration
